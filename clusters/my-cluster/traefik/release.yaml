@@ -8,10 +8,10 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: "34.2.0" # 🔄 Version actuelle de Traefik
+      version: "34.2.0"
       sourceRef:
         kind: HelmRepository
-        name: traefik # 🔄 Changed from bitnami to traefik
+        name: traefik #  
         namespace: flux-system
   values:
     # 🌐 Service configuration
@@ -44,7 +44,4 @@ spec:
     - "--global.checknewversion=false"
     - "--global.sendanonymoususage=false"
     # 🏷️ Additional labels
-    deployment:
-      labels:
-        app.kubernetes.io/name: traefik
-        app.kubernetes.io/instance: traefik
+
