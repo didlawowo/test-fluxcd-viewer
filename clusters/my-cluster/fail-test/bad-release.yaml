@@ -1,25 +1,22 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: nginx
-  namespace: nginx
+  name: test-fail-helm
+  namespace: default
 spec:
-  interval: 5m
+  interval: 1m
   chart:
     spec:
       chart: nginx
-      version: "15.3.4"
+      version: "999.999.999"    # 🚫 Version qui n'existe pas
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: bitnami           # 🚫 Repo qui n'existe pas encore
         namespace: flux-system
   values:
     service:
-      type: ClusterIP
+      type: ClusterIP  
     resources:
       limits:
         memory: 128Mi
         cpu: 100m
-      requests:
-        memory: 64Mi
-        cpu: 50m
