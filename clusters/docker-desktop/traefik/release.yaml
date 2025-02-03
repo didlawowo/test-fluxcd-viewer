@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik
+      version: "34.2.0" # 🔄 Version actuelle de Traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik # 🔄 Changed from bitnami to traefik
+        namespace: flux-system
+  values:
+    # 🌐 Service configuration
+    service:
+      enabled: true
+      type: LoadBalancer # ⚠️ Changed to LoadBalancer for external access
+
+    # 🔒 Default ports configuration
+    ports:
+      web:
+        port: 80
+      websecure:
+        port: 443
+
+    # 🎮 Dashboard configuration
+    dashboard:
+      enabled: true
+
+    # 💪 Resource limits
+    resources:
+      limits:
+        memory: 256Mi # ⚠️ Increased for better performance
+        cpu: 200m
+      requests:
+        memory: 128Mi # ⚠️ Increased for stability
+        cpu: 100m
+
+    # 🔐 Security settings
+    globalArguments:
+    - "--global.checknewversion=false"
+    - "--global.sendanonymoususage=false"
+    # 🏷️ Additional labels
+    deployment:
+      labels:
+        app.kubernetes.io/name: traefik
+        app.kubernetes.io/instance: traefik
